@@ -1,0 +1,101 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .field-row {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f8fafc;
+            padding-bottom: 8px;
+            display: block;
+            /* WeasyPrint handles block better than flex sometimes for basic rows */
+            clear: both;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #64748b;
+            display: inline-block;
+            width: 180px;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        .value {
+            display: inline-block;
+            color: #0f172a;
+            font-size: 14px;
+            max-width: 450px;
+            vertical-align: top;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>{{ document.document_type.name }}</h1>
+    </div>
+
+    <div class="content">
+        {% for field in document.document_type.fields_schema %}
+        <div class="field-row">
+            <span class="label">{{ field.label }}</span>
+            <span class="value">
+                {% with field.id as key %}
+                {{ metadata|get_item:key|default:"-" }}
+                {% endwith %}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        <p>Document ID: {{ document.tracking_field }} • Issued: {{ now|date:"F j, Y" }}</p>
+    </div>
+</body>
+
+</html>

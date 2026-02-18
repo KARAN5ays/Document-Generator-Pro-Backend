@@ -1,0 +1,564 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: #fff;
+        }
+
+        .page-container {
+            width: 210mm;
+            height: 297mm;
+            padding: 20mm;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Certificate Layout */
+        .layout-certificate {
+            border: 15px double #1e293b;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            background-image: radial-gradient(circle at 50% 50%, #fcfcfc 0%, #f8fafc 100%);
+        }
+
+        .cert-header {
+            margin-top: 40px;
+        }
+
+        .cert-header h1 {
+            font-size: 48px;
+            margin: 0;
+            letter-spacing: 4px;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+
+        .cert-header .sub-header {
+            font-size: 18px;
+            color: #64748b;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .cert-body {
+            margin: 60px 0;
+            width: 80%;
+        }
+
+        .cert-body .certify-text {
+            font-size: 22px;
+            color: #475569;
+        }
+
+        .cert-body .recipient-name {
+            font-size: 42px;
+            font-weight: bold;
+            color: #1e293b;
+            margin: 20px 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .cert-body .course-text {
+            font-size: 20px;
+            color: #475569;
+        }
+
+        .cert-body .course-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 15px 0;
+        }
+
+        .cert-footer {
+            margin-top: auto;
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .sig-line {
+            width: 200px;
+            border-top: 1px solid #1e293b;
+            padding-top: 10px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .seal {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            width: 120px;
+            height: 120px;
+            border: 4px double #94a3b8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+            transform: rotate(-15deg);
+        }
+
+        .seal-text {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* Generic / Receipt Layout */
+        .layout-generic {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            padding: 40px;
+        }
+
+        .generic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid #0f172a;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .generic-header h1 {
+            font-size: 32px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .document-id {
+            text-align: right;
+            font-family: monospace;
+            color: #64748b;
+        }
+
+        .details-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        .details-grid th,
+        .details-grid td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .details-grid th {
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            width: 30%;
+        }
+
+        .details-grid td {
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tracking-box {
+            background: #f8fafc;
+            border: 1px dashed #e2e8f0;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 60px;
+        }
+
+        .tracking-box strong {
+            color: #0f172a;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        /* Optimization Classes */
+        .grade-text {
+            font-size: 20px;
+            color: #475569;
+            margin-top: 10px;
+        }
+
+        .grade-text strong {
+            color: #0f172a;
+        }
+
+        .additional-details {
+            margin-top: 30px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+
+        .details-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .details-table td {
+            padding: 4px 10px;
+            width: 50%;
+        }
+
+        .details-table .label {
+            text-align: right;
+            color: #64748b;
+        }
+
+        .details-table .value {
+            text-align: left;
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        .badge-blue {
+            background: #eff6ff;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        {% if document.template_type|lower == 'certificate' %}
+        <div class="layout-certificate">
+            <div class="cert-header">
+                <h1>{{ document.template_type }}</h1>
+                <div class="sub-header">Official Document of Completion</div>
+            </div>
+
+            <div class="cert-body">
+                <p class="certify-text">This is to certify that</p>
+                <div class="recipient-name">{{ metadata.name }}</div>
+                <p class="course-text">has successfully completed the requirements for</p>
+                <div class="course-name">{{ metadata.courseName }}</div>
+
+                {% if metadata.grade %}
+                <p class="grade-text">
+                    with a grade of <strong>{{ metadata.grade }}</strong>
+                </p>
+                {% endif %}
+
+                <p class="date-text" style="margin-top: 20px;">Issued on this day, {{ metadata.date }}</p>
+
+                {% if metadata.custom_fields %}
+                <div class="additional-details">
+                    <p class="details-label">Additional Credentials</p>
+                    <table class="details-table">
+                        {% for cf in metadata.custom_fields %}
+                        <tr>
+                            <td class="label">{{ cf.label }}:</td>
+                            <td class="value">{{ cf.value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="cert-footer">
+                <div class="signatures">
+                    <div class="sig-line">Authored Signature</div>
+                    <div class="sig-line">Official Registrar</div>
+                </div>
+                <div class="tracking-code" style="font-size: 12px; color: #94a3b8; font-family: monospace;">
+                    Code: {{ document.tracking_field }}
+                </div>
+            </div>
+
+            <div class="seal">
+                <div class="seal-text">Official<br>Verified<br>Secure</div>
+            </div>
+        </div>
+        {% elif document.template_type|lower == 'letter' %}
+        <div class="layout-letter"
+            style="font-family: 'Georgia', serif; padding: 40px; color: #1e293b; max-width: 800px; margin: 0 auto;">
+            <!-- Header / Letterhead -->
+            <div
+                style="border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <h1
+                        style="margin: 0; font-size: 24px; color: #0f172a; text-transform: uppercase; letter-spacing: 1px;">
+                        {{ metadata.sender_name|default:"Official Authority" }}</h1>
+                    <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">{{ metadata.sender_address|default:"123
+                        Admin St, City, Country" }}</p>
+                </div>
+                <div style="text-align: right; font-size: 14px; color: #64748b;">
+                    <p style="margin: 0;">Date: {{ metadata.date|default:now|date:"F d, Y" }}</p>
+                    <p style="margin: 5px 0 0;">Ref: {{ document.tracking_field }}</p>
+                </div>
+            </div>
+
+            <!-- Recipient -->
+            <div style="margin-bottom: 40px;">
+                <p style="font-weight: bold; margin: 0; font-size: 16px;">{{ metadata.recipient_name }}</p>
+                <p style="margin: 5px 0 0; white-space: pre-line;">{{ metadata.recipient_address }}</p>
+            </div>
+
+            <!-- Subject -->
+            <div style="margin-bottom: 30px;">
+                <span style="font-weight: bold; text-decoration: underline;">Subject: {{ metadata.subject }}</span>
+            </div>
+
+            <!-- Body -->
+            <div style="line-height: 1.8; font-size: 16px; margin-bottom: 40px; text-align: justify;">
+                {{ metadata.body|linebreaks }}
+            </div>
+
+            <!-- Closing -->
+            <div style="margin-top: 60px;">
+                <p style="margin: 0;">Sincerely,</p>
+                <div style="height: 50px;">
+                    <!-- Signature Placeholder -->
+                </div>
+                <p style="margin: 0; font-weight: bold;">{{ metadata.sender_name|default:"Authorized Signatory" }}</p>
+                <p style="margin: 0; font-size: 14px; color: #64748b;">{{ metadata.sender_role }}</p>
+            </div>
+
+            <!-- Footer -->
+            <div
+                style="margin-top: 80px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+                This is an electronically generated letter. Verify at yourdomain.com/verify/{{ document.tracking_field
+                }}
+            </div>
+        </div>
+
+        {% elif document.template_type|lower == 'id card' %}
+        <div class="layout-idcard"
+            style="width: 350px; height: 220px; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; font-family: sans-serif; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <!-- ID Header -->
+            <div
+                style="background: #0f172a; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between;">
+                <div
+                    style="color: #fff; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Identity Card</div>
+                <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></div>
+            </div>
+
+            <div style="padding: 15px; display: flex; gap: 15px;">
+                <!-- Photo Placeholder -->
+                <div
+                    style="width: 80px; height: 100px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">
+                    <span style="font-size: 10px;">PHOTO</span>
+                </div>
+
+                <!-- Details -->
+                <div style="flex: 1;">
+                    <h2 style="margin: 0; font-size: 16px; font-weight: bold; color: #1e293b;">{{ metadata.full_name }}
+                    </h2>
+                    <p
+                        style="margin: 2px 0 10px; font-size: 12px; color: #3b82f6; font-weight: 600; text-transform: uppercase;">
+                        {{ metadata.role }}</p>
+
+                    <div style="font-size: 10px; color: #64748b; line-height: 1.5;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>ID No.</span>
+                            <span style="font-weight: 600; color: #1e293b;">{{ metadata.employee_id }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Dept.</span>
+                            <span style="font-weight: 600; color: #1e293b;">{{ metadata.department }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Expires</span>
+                            <span style="font-weight: 600; color: #ef4444;">{{ metadata.expiry_date }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barcode strip -->
+            <div
+                style="position: absolute; bottom: 0; left: 0; right: 0; background: #f8fafc; padding: 8px 15px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-family: monospace; font-size: 10px; color: #94a3b8;">{{ document.tracking_field }}
+                </div>
+                <div
+                    style="height: 15px; width: 80px; background: repeating-linear-gradient(90deg, #334155 0, #334155 1px, transparent 1px, transparent 2px);">
+                </div>
+            </div>
+
+            <div class="watermark"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 60px; font-weight: 900; color: rgba(15, 23, 42, 0.03); pointer-events: none; white-space: nowrap;">
+                VALID
+            </div>
+        </div>
+
+        {% elif document.template_type|lower == 'ticket' %}
+        <div class="layout-ticket"
+            style="font-family: system-ui, sans-serif; max-width: 600px; margin: 20px auto; border: 2px dashed #cbd5e1; border-radius: 16px; display: flex; background: #fff; overflow: hidden; position: relative;">
+            <!-- Left Half -->
+            <div
+                style="flex: 1; padding: 20px; border-right: 2px dashed #cbd5e1; position: relative; background: radial-gradient(circle at right center, transparent 10px, #fff 10px);">
+                <div
+                    style="font-size: 12px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
+                    Event Ticket</div>
+                <h1 style="margin: 0; font-size: 24px; color: #0f172a; line-height: 1.2;">{{
+                    metadata.event_name|default:"General Admission" }}</h1>
+                <p style="margin: 5px 0 20px; color: #ef4444; font-weight: bold; font-size: 14px;">{{
+                    metadata.ticket_type|default:"Standard Entry" }}</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 12px;">
+                    <div>
+                        <div style="color: #94a3b8; text-transform: uppercase; font-size: 10px;">Date</div>
+                        <div style="font-weight: 600; color: #334155;">{{ metadata.date }}</div>
+                    </div>
+                    <div>
+                        <div style="color: #94a3b8; text-transform: uppercase; font-size: 10px;">Time</div>
+                        <div style="font-weight: 600; color: #334155;">{{ metadata.time }}</div>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <div style="color: #94a3b8; text-transform: uppercase; font-size: 10px;">Venue</div>
+                        <div style="font-weight: 600; color: #334155;">{{ metadata.venue }}</div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 10px; color: #cbd5e1;">NO REFUNDS</div>
+                    <div style="font-weight: bold; color: #0f172a; font-size: 18px;">${{ metadata.price }}</div>
+                </div>
+            </div>
+
+            <!-- Stub -->
+            <div
+                style="width: 150px; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; text-align: center; position: relative;">
+                <h2 style="margin: 0 0 10px; font-size: 14px; color: #0f172a;">{{ metadata.seat|default:"General" }}
+                </h2>
+                <div style="font-size: 10px; color: #64748b; margin-bottom: 15px;">Seat / Zone</div>
+
+                <!-- Mock QR -->
+                <div
+                    style="width: 80px; height: 80px; background: #fff; border: 1px solid #e2e8f0; padding: 5px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+                    <!-- Simple pattern generation -->
+                    <div style="background:#000;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#fff;"></div>
+                    <div style="background:#000;"></div>
+                    <div style="background:#000;"></div>
+                </div>
+
+                <div
+                    style="margin-top: 10px; font-family: monospace; font-size: 10px; color: #94a3b8; transform: rotate(-90deg) translateX(-20px);">
+                    {{ document.tracking_field }}
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="layout-generic">
+            <div class="generic-header">
+                <div>
+                    <h1>{{ document.template_type }}</h1>
+                    <div class="badge">Valid Document</div>
+                </div>
+                <div class="document-id">
+                    ID: {{ document.tracking_field }}<br>
+                    Date: {{ now|date:"M d, Y" }}
+                </div>
+            </div>
+
+            <table class="details-grid">
+                {% for key, value in metadata_items %}
+                {% if key != 'custom_fields' and key != 'grade' %}
+                <tr>
+                    <th>{{ key|replace_underscores|title }}</th>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+                {% if metadata.grade %}
+                <tr>
+                    <th>Grade</th>
+                    <td><span class="badge badge-blue">{{ metadata.grade }}</span></td>
+                </tr>
+                {% endif %}
+            </table>
+
+            {% if metadata.custom_fields %}
+            <h3 class="details-label" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 5px; margin-top: 30px;">
+                Additional Details</h3>
+            <table class="details-grid">
+                {% for cf in metadata.custom_fields %}
+                <tr>
+                    <th>{{ cf.label }}</th>
+                    <td>{{ cf.value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+
+            <div class="tracking-box">
+                This document is digitally signed and can be verified at:<br>
+                <strong>yourdomain.com/verify/{{ document.tracking_field }}</strong>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
