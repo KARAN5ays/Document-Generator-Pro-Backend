@@ -12,12 +12,6 @@ FIELD_TYPES = [
     {"value": "time", "label": "Time", "description": "Time picker"},
     {"value": "email", "label": "Email", "description": "Email address"},
     {"value": "url", "label": "URL", "description": "Web link"},
-]
-
-# Layout options for templates
-LAYOUT_OPTIONS = [
-    {"value": "standard", "label": "Standard", "description": "Default document layout"},
-    {"value": "certificate", "label": "Certificate", "description": "Centered certificate style"},
     {"value": "receipt", "label": "Receipt", "description": "Compact receipt/invoice layout"},
     {"value": "idcard", "label": "ID Card", "description": "Card-style compact layout"},
     {"value": "letter", "label": "Letter", "description": "Formal letter format"},
@@ -35,6 +29,12 @@ DEFAULT_HTML_TEMPLATE = """<div class="layout-custom" style="padding: 40px; font
     ID: {{ document.tracking_field }}
   </div>
 </div>"""
+
+# Layout options for templates
+LAYOUT_OPTIONS = [
+    {"value": "standard", "label": "Standard", "description": "Default document layout"},
+    {"value": "certificate", "label": "Certificate", "description": "Centered elegant layout"},
+]
 
 # UI copy and help text (editable from backend)
 HELP_TEXTS = {

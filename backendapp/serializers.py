@@ -12,6 +12,10 @@ class DocumentTypeSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
+        # On partial updates (PATCH), skip this check — the existing instance
+        # already has whatever template source it needs.
+        if self.partial:
+            return data
         if not data.get('template_html') and not data.get('template_file'):
             raise serializers.ValidationError("Either 'template_html' or 'template_file' must be provided.")
         return data

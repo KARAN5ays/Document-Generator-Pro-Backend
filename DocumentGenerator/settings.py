@@ -145,11 +145,10 @@ TIME_ZONE = 'UTC'
 
 
 # CORS: restrict in production via CORS_ALLOWED_ORIGINS
-CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
-    if origin.strip()
+"http://localhost:5173",
+"http://127.0.0.1:5173",
+"https://document-generator-pro.vercel.app",
 ]
 
 USE_I18N = True

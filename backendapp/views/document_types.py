@@ -34,14 +34,40 @@ class DocumentTypeListView(APIView):
 
 
 class DocumentTypeDetailView(APIView):
-    """Retrieve or delete a document type."""
-    
-    permission_classes = [IsStaffUser]
+    """Retrieve, update, or delete a document type."""
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsStaffUser()]
+
+    def get(self, request, pk):
+        """Return full template data (including ui_config) for editing."""
+        try:
+            doc_type = DocumentType.objects.get(pk=pk)
+            serializer = DocumentTypeSerializer(doc_type)
+            return Response(serializer.data)
+        except DocumentType.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, pk):
+        """Partially update a template (name, fields_schema, ui_config, etc.)."""
+        try:
+            doc_type = DocumentType.objects.get(pk=pk)
+        except DocumentType.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DocumentTypeSerializer(doc_type, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
+        """Permanently delete a document type."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
             doc_type.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except DocumentType.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
