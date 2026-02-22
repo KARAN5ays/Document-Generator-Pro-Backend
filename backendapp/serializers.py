@@ -3,13 +3,21 @@ from .models import User, Document, DocumentType
 import uuid
 
 class DocumentTypeSerializer(serializers.ModelSerializer):
+    can_edit_in_builder = serializers.SerializerMethodField()
+
     class Meta:
         model = DocumentType
-        fields = ['id', 'name', 'template_html', 'template_file', 'fields_schema', 'ui_config']
+        fields = ['id', 'name', 'template_html', 'template_file', 'fields_schema', 'ui_config', 'can_edit_in_builder']
         extra_kwargs = {
             'template_html': {'required': False},
             'template_file': {'required': False},
         }
+
+    def get_can_edit_in_builder(self, obj):
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            return obj.created_by == request.user
+        return False
 
     def validate(self, data):
         # On partial updates (PATCH), skip this check — the existing instance
