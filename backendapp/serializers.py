@@ -38,6 +38,22 @@ class DocumentVerifySerializer(serializers.ModelSerializer):
         read_only_fields = ['tracking_field', 'template_type' , 'metadata' , 'created_at' , 'status']
 
 
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+        
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password']
+        )
+        return user
+
+
 class DocumentListSerializer(serializers.ModelSerializer):
     """Serializer for listing user's documents."""
     document_type_name = serializers.CharField(source='document_type.name', read_only=True)

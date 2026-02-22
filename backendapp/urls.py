@@ -14,6 +14,7 @@ from .views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from backendapp.views.auth import RegisterView
 
 urlpatterns = [
     path("document-types/", DocumentTypeListView.as_view(), name="document-type-list"),
@@ -34,6 +35,7 @@ urlpatterns = [
     ),
     path("analytics/", DashboardAnalyticsView.as_view(), name="dashboard-analytics"),
     path("template-builder-config/", TemplateBuilderConfigView.as_view(), name="template-builder-config"),
+    path('register/', RegisterView.as_view(), name='auth_register'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] 
