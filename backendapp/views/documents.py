@@ -50,9 +50,9 @@ class DocumentVerifyView(APIView):
         return Response({"document": serializer.data})
 
 
-class DocumentDetailView(generics.RetrieveAPIView):
+class DocumentDetailView(generics.RetrieveDestroyAPIView):
     """
-    Retrieve details of a specific document.
+    Retrieve or delete a specific document.
     """
     queryset = Document.objects.all()
     serializer_class = DocumentListSerializer
