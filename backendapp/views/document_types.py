@@ -68,9 +68,17 @@ class DocumentTypeDetailView(APIView):
         """Permanently delete a document type."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
-            if doc_type.created_by != request.user:
-                 return Response({"detail": "You do not have permission to delete this template."}, status=status.HTTP_403_FORBIDDEN)
-            doc_type.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
         except DocumentType.DoesNotExist:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Use ID comparison for reliability
+        if doc_type.created_by_id is None:
+            return Response({"detail": "You cannot delete a system template."}, status=status.HTTP_403_FORBIDDEN)
+        if doc_type.created_by_id != request.user.id:
+            return Response({"detail": "You do not have permission to delete this template."}, status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            doc_type.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"detail": f"Deletion failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
