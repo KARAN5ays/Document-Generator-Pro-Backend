@@ -36,9 +36,7 @@ class DocumentTypeDetailView(APIView):
     """Retrieve, update, or delete a document type."""
 
     def get_permissions(self):
-        if self.request.method == "GET":
-            return [IsAuthenticated()]
-        return [IsStaffUser()]
+        return [IsAuthenticated()]
 
     def get(self, request, pk):
         """Return full template data (including ui_config) for editing."""
