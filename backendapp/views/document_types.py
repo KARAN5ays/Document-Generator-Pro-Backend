@@ -21,11 +21,19 @@ class DocumentTypeListView(APIView):
 
     def get(self, request):
         types = DocumentType.objects.filter(Q(created_by=request.user) | Q(created_by__isnull=True))
+<<<<<<< HEAD
         serializer = DocumentTypeSerializer(types, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
         serializer = DocumentTypeSerializer(data=request.data, context={'request': request})
+=======
+        serializer = DocumentTypeSerializer(types, many=True, context={'request':request})
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = DocumentTypeSerializer(data=request.data, context={'request':request})
+>>>>>>> 921c41f (server commit)
         if serializer.is_valid():
             serializer.save(created_by=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -37,6 +45,10 @@ class DocumentTypeDetailView(APIView):
 
     def get_permissions(self):
         return [IsAuthenticated()]
+<<<<<<< HEAD
+=======
+     
+>>>>>>> 921c41f (server commit)
 
     def get(self, request, pk):
         """Return full template data for editing."""

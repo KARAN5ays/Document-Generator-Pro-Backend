@@ -52,7 +52,11 @@ class DocumentVerifyView(APIView):
 
 class DocumentDetailView(generics.RetrieveDestroyAPIView):
     """
+<<<<<<< HEAD
     Retrieve or delete a specific document.
+=======
+    Retrieve or delete a details of a specific document.
+>>>>>>> 921c41f (server commit)
     """
     queryset = Document.objects.all()
     serializer_class = DocumentListSerializer
