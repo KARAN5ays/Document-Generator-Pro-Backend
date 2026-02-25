@@ -21,19 +21,11 @@ class DocumentTypeListView(APIView):
 
     def get(self, request):
         types = DocumentType.objects.filter(Q(created_by=request.user) | Q(created_by__isnull=True))
-<<<<<<< HEAD
         serializer = DocumentTypeSerializer(types, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
         serializer = DocumentTypeSerializer(data=request.data, context={'request': request})
-=======
-        serializer = DocumentTypeSerializer(types, many=True, context={'request':request})
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = DocumentTypeSerializer(data=request.data, context={'request':request})
->>>>>>> 921c41f (server commit)
         if serializer.is_valid():
             serializer.save(created_by=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -45,13 +37,9 @@ class DocumentTypeDetailView(APIView):
 
     def get_permissions(self):
         return [IsAuthenticated()]
-<<<<<<< HEAD
-=======
-     
->>>>>>> 921c41f (server commit)
 
     def get(self, request, pk):
-        """Return full template data for editing."""
+        """Return full template data (including ui_config) for editing."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
             if doc_type.created_by and doc_type.created_by != request.user:
@@ -62,7 +50,7 @@ class DocumentTypeDetailView(APIView):
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, pk):
-        """Partially update a template (name, fields_schema, etc.)."""
+        """Partially update a template (name, fields_schema, ui_config, etc.)."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
             if doc_type.created_by != request.user:
