@@ -39,7 +39,7 @@ class DocumentTypeDetailView(APIView):
         return [IsAuthenticated()]
 
     def get(self, request, pk):
-        """Return full template data (including ui_config) for editing."""
+        """Return full template data for editing."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
             if doc_type.created_by and doc_type.created_by != request.user:
@@ -50,7 +50,7 @@ class DocumentTypeDetailView(APIView):
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, pk):
-        """Partially update a template (name, fields_schema, ui_config, etc.)."""
+        """Partially update a template (name, fields_schema, etc.)."""
         try:
             doc_type = DocumentType.objects.get(pk=pk)
             if doc_type.created_by != request.user:

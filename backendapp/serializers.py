@@ -7,7 +7,7 @@ class DocumentTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DocumentType
-        fields = ['id', 'name', 'template_html', 'template_file', 'fields_schema', 'ui_config', 'can_edit_in_builder']
+        fields = ['id', 'name', 'template_html', 'template_file', 'fields_schema', 'can_edit_in_builder']
         extra_kwargs = {
             'template_html': {'required': False},
             'template_file': {'required': False},
