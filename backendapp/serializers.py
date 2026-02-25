@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Document, DocumentType
+from .models import User, Document, DocumentType, CompanyAsset
 import uuid
 
 class DocumentTypeSerializer(serializers.ModelSerializer):
@@ -76,3 +76,18 @@ class DocumentListSerializer(serializers.ModelSerializer):
             return obj.pdf_url.url
         return None
 
+
+class CompanyAssetSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CompanyAsset
+        fields = ['id', 'name', 'file', 'file_url', 'asset_type', 'is_default', 'created_at']
+        read_only_fields = ['id', 'created_at', 'file_url']
+        extra_kwargs = {'file': {'write_only': True}}
+
+    def get_file_url(self, obj):
+        request = self.context.get('request')
+        if obj.file and request:
+            return request.build_absolute_uri(obj.file.url)
+        return None

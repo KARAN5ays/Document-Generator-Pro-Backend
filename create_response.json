@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{
+  "message": "Document created successfully",
+  "pdf_url": "documents/9D4843D4.pdf"
+}
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="robots" content="NONE,NOARCHIVE">
   <title>UnicodeDecodeError

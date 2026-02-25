@@ -10,6 +10,9 @@ from .views import (
     VerificationStatsView,
     DocumentDetailView,
     DocumentTypeDetailView,
+    AssetListCreateView,
+    AssetDetailView,
+    BulkIssuanceView,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,6 +42,11 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('users/me/', UserProfileView.as_view(), name='user-profile'),
-] 
+    # Asset Manager
+    path('assets/', AssetListCreateView.as_view(), name='asset-list-create'),
+    path('assets/<int:pk>/', AssetDetailView.as_view(), name='asset-detail'),
+    # Bulk Issuance
+    path('bulk-issuance/', BulkIssuanceView.as_view(), name='bulk-issuance'),
+]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

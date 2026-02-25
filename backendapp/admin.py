@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Document, DocumentType, User
+from .models import Document, DocumentType, User, CompanyAsset
 
 
 @admin.register(User)
@@ -27,3 +27,11 @@ class DocumentAdmin(admin.ModelAdmin):
     search_fields = ("tracking_field",)
     readonly_fields = ("tracking_field", "created_at")
     date_hierarchy = "created_at"
+
+
+@admin.register(CompanyAsset)
+class CompanyAssetAdmin(admin.ModelAdmin):
+    list_display = ("name", "asset_type", "is_default", "uploaded_by", "created_at")
+    list_filter = ("asset_type", "is_default")
+    search_fields = ("name",)
+    readonly_fields = ("created_at",)

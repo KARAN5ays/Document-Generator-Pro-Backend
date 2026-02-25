@@ -12,6 +12,8 @@ from .documents import (
     DocumentDownloadView,
     DocumentDetailView,
 )
+from .assets import AssetListCreateView, AssetDetailView
+from .bulk_issuance import BulkIssuanceView
 
 __all__ = [
     "DocumentTypeListView",
@@ -24,4 +26,7 @@ __all__ = [
     "DocumentVerifyView",
     "DocumentDownloadView",
     "DocumentDetailView",
+    "AssetListCreateView",
+    "AssetDetailView",
+    "BulkIssuanceView",
 ]

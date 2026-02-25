@@ -44,3 +44,30 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.document_type.name if self.document_type else 'Unknown'} - {self.tracking_field}"
+
+
+class CompanyAsset(models.Model):
+    class AssetType(models.TextChoices):
+        LOGO = 'logo', 'Logo'
+        SIGNATURE = 'signature', 'Signature'
+        STAMP = 'stamp', 'Stamp'
+
+    name = models.CharField(max_length=100, help_text="Human-readable label, e.g. 'Main Logo'")
+    file = models.ImageField(upload_to='assets/', help_text="The uploaded image file")
+    asset_type = models.CharField(max_length=20, choices=AssetType.choices, default=AssetType.LOGO)
+    is_default = models.BooleanField(default=False, help_text="Mark as the default asset for its type")
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assets')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.get_asset_type_display()} – {self.name}"
+
+    def save(self, *args, **kwargs):
+        # If this asset is being set as default, unset others of the same type for this user
+        if self.is_default:
+            CompanyAsset.objects.filter(
+                uploaded_by=self.uploaded_by,
+                asset_type=self.asset_type,
+                is_default=True
+            ).exclude(pk=self.pk).update(is_default=False)
+        super().save(*args, **kwargs)
