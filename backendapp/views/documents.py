@@ -87,17 +87,19 @@ class DocumentDownloadView(APIView):
             
             # Simplified generation logic:
             if document.document_type and document.document_type.template_html:
-                 # In a real app, we'd use Django template engine or Jinja2 to render this with document.metadata
-                 # For now, let's assume simple replacement or pass as is if it's already full HTML?
-                 # The test example was: "<div>{{ metadata.test }}</div>"
-                 # So we likely need to render it.
-                 from django.template import Template, Context
-                 template = Template(document.document_type.template_html)
-                 context = Context({'metadata': document.metadata, 'document': document})
-                 html_string = template.render(context)
-                 generate_document_pdf(document, html_string)
+                # In a real app, we'd use Django template engine or Jinja2 to render this with document.metadata
+                # For now, let's assume simple replacement or pass as is if it's already full HTML?
+                # The test example was: "<div>{{ metadata.test }}</div>"
+                # So we likely need to render it.
+                from django.template import Template, Context
+                template = Template(document.document_type.template_html)
+                # Unpack metadata so field tags like {{ Name }} resolve directly
+                context_data = {**(document.metadata or {}), 'document': document, 'metadata': document.metadata}
+                context = Context(context_data)
+                html_string = template.render(context)
+                generate_document_pdf(document, html_string)
             else:
-                 return Response({"error": "No template available for this document"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": "No template available for this document"}, status=status.HTTP_404_NOT_FOUND)
 
         if not document.pdf_url:
             return Response({"error": "PDF generation failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
