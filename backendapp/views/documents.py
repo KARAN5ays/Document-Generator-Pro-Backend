@@ -91,6 +91,8 @@ class DocumentDownloadView(APIView):
                 'document': document,
                 'metadata': metadata,
                 'metadata_items': metadata_items,
+                'unique_code': document.tracking_field,
+                'tracking_code': document.tracking_field,
                 **metadata, # Unpack so {{ Name }} works directly
             }
 
@@ -128,16 +130,28 @@ class DocumentDownloadView(APIView):
                                 margin: 0; 
                                 padding: 0;
                             }}
-                            .ck-content {{ font-size: 14px; }}
+                            .ck-content {{ font-size: 14px; min-height: 250mm; }}
                             /* Mimic some CKEditor styles */
                             blockquote {{ border-left: 4px solid #db2777; background: #fdf2f8; padding: 1rem; margin: 1rem 0; font-style: italic; }}
                             table {{ border-collapse: collapse; width: 100%; margin: 1rem 0; }}
                             table td, table th {{ border: 1px solid #e2e8f0; padding: 8px; }}
+                            .footer {{ 
+                                margin-top: 20mm; 
+                                padding-top: 10mm; 
+                                border-top: 1px dashed #e2e8f0; 
+                                text-align: center; 
+                                color: #94a3b8; 
+                                font-size: 10px;
+                                font-family: monospace;
+                            }}
                         </style>
                     </head>
                     <body>
                         <div class="ck-content">
                             {content_html}
+                        </div>
+                        <div class="footer">
+                            Verification Code: {document.tracking_field} | Verified Authentic
                         </div>
                     </body>
                     </html>
