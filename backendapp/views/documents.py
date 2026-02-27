@@ -130,38 +130,29 @@ class DocumentDownloadView(APIView):
                                 margin: 0; 
                                 padding: 0;
                             }}
-                            .ck-content {{ font-size: 14px; min-height: 230mm; }}
+                            .ck-content {{ font-size: 14px; position: relative; }}
                             /* Mimic some CKEditor styles */
                             blockquote {{ border-left: 4px solid #db2777; background: #fdf2f8; padding: 1rem; margin: 1rem 0; font-style: italic; }}
                             table {{ border-collapse: collapse; width: 100%; margin: 1rem 0; }}
                             table td, table th {{ border: 1px solid #e2e8f0; padding: 8px; }}
-                            .header {{
-                                text-align: right;
-                                margin-bottom: 5mm;
-                                font-family: monospace;
-                                font-size: 10px;
-                                color: #94a3b8;
-                            }}
                             .footer {{ 
-                                margin-top: 10mm; 
-                                padding-top: 5mm; 
-                                border-top: 1px dashed #e2e8f0; 
-                                text-align: center; 
+                                position: fixed;
+                                bottom: -10mm;
+                                right: 0;
+                                text-align: right; 
                                 color: #94a3b8; 
                                 font-size: 10px;
                                 font-family: monospace;
+                                opacity: 0.8;
                             }}
                         </style>
                     </head>
                     <body>
-                        <div class="header">
-                            ID: {document.tracking_field}
-                        </div>
                         <div class="ck-content">
                             {content_html}
                         </div>
                         <div class="footer">
-                            Verification: {document.tracking_field} | Verified Authentic
+                            Verification: {document.tracking_field}
                         </div>
                     </body>
                     </html>
