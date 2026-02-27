@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, Http404
 from rest_framework import generics, status
@@ -11,7 +12,7 @@ from backendapp.serializers import (
     DocumentVerifySerializer,
 )
 from backendapp.services.pdf_service import generate_document_pdf
-
+logger = logging.getLogger(__name__)
 
 class DocumentCreateView(generics.CreateAPIView):
     """
