@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import User, Document, DocumentType, CompanyAsset
+from .models import User, Document, Template, CompanyAsset
 import uuid
 
 class DocumentTypeSerializer(serializers.ModelSerializer):
     can_edit_in_builder = serializers.SerializerMethodField()
 
     class Meta:
-        model = DocumentType
+        model = Template
         fields = ['id', 'name', 'template_html', 'template_file', 'fields_schema', 'can_edit_in_builder']
         extra_kwargs = {
             'template_html': {'required': False},

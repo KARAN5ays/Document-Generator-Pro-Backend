@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Document, DocumentType, User, CompanyAsset
+from .models import Document, Template, User, CompanyAsset
 
 
 @admin.register(User)
@@ -9,8 +9,8 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ("username", "email")
 
 
-@admin.register(DocumentType)
-class DocumentTypeAdmin(admin.ModelAdmin):
+@admin.register(Template)
+class TemplateAdmin(admin.ModelAdmin):
     list_display = ("name", "created_documents_count")
     search_fields = ("name",)
 

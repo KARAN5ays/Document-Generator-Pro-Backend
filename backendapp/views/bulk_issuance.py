@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from backendapp.models import Document, DocumentType
+from backendapp.models import Document, Template
 
 
 def _generate_tracking_field():
@@ -81,8 +81,8 @@ class BulkIssuanceView(APIView):
             return Response({'error': 'document_type is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            doc_type = DocumentType.objects.get(pk=int(document_type_id))
-        except (DocumentType.DoesNotExist, ValueError):
+            doc_type = Template.objects.get(pk=int(document_type_id))
+        except (Template.DoesNotExist, ValueError):
             return Response({'error': 'Invalid document_type ID.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # --- Parse the file ---

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from .models import DocumentType, User
+from .models import Template, User
 
 class DocumentTypeTests(APITestCase):
     def setUp(self):
@@ -19,8 +19,8 @@ class DocumentTypeTests(APITestCase):
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(DocumentType.objects.count(), 1)
-        self.assertEqual(DocumentType.objects.get().name, "New Type")
+        self.assertEqual(Template.objects.count(), 1)
+        self.assertEqual(Template.objects.get().name, "New Type")
 
     def test_create_document_type_permission_denied(self):
         self.client.force_authenticate(user=self.user)
