@@ -17,7 +17,7 @@ class User(AbstractUser):
         return self.username or self.email or str(self.id)
 
 
-class DocumentType(models.Model):
+class Template(models.Model):
     name = models.CharField(max_length=50, unique=True, help_text="Name of the document type (e.g., certificate, receipt)")
     template_html = models.TextField(help_text="HTML template for the document type", blank=True, null=True)
     template_file = models.CharField(max_length=255, help_text="Path to the template file (e.g. backendapp/custom_templates/my_template.html)", blank=True, null=True)
@@ -29,7 +29,7 @@ class DocumentType(models.Model):
     
 
 class Document(models.Model):
-    document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE, related_name='documents', null=True)
+    document_type = models.ForeignKey(Template, on_delete=models.CASCADE, related_name='documents', null=True)
     tracking_field = models.CharField(max_length=50, unique=True, help_text="Unique verification code",db_index=True , validators=[MinLengthValidator(8),RegexValidator(r'^[A-Z0-9]+$')])
     metadata = models.JSONField(help_text="Flexible object for document data")
     pdf_url = models.FileField(upload_to='documents/', blank=True, null=True)
