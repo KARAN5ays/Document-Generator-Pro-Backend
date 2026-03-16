@@ -20,7 +20,7 @@ class User(AbstractUser):
 class Template(models.Model):
     name = models.CharField(max_length=50, unique=True, help_text="Name of the document type (e.g., certificate, receipt)")
     template_html = models.TextField(help_text="HTML template for the document type", blank=True, null=True)
-    template_file = models.CharField(max_length=255, help_text="Path to the template file (e.g. backendapp/custom_templates/my_template.html)", blank=True, null=True)
+    template_file = models.CharField(max_length=255, help_text="Path to the template file (e.g. documentapp/custom_templates/my_template.html)", blank=True, null=True)
     fields_schema = models.JSONField(default=list, help_text="JSON list of field definitions for this template")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='templates', null=True, blank=True, help_text="User who created this template. Null means global system template.")
 

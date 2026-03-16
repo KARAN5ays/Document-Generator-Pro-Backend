@@ -162,7 +162,7 @@ class DocumentDownloadView(APIView):
                     html_string = content_html
             else:
                 # Fallback to system template file
-                template_name = getattr(document.document_type, 'template_file', None) or 'backendapp/document.html'
+                template_name = getattr(document.document_type, 'template_file', None) or 'documentapp/document.html'
                 try:
                     html_string = render_to_string(template_name, context_dict)
                 except Exception as e:

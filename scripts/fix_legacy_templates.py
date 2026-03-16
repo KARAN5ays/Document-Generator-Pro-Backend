@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DocumentGenerator.settings')
 django.setup()
 
-from backendapp.models import DocumentType, User, Document
+from documentapp.models import DocumentType, User, Document
 
 SYSTEM_TEMPLATE_NAMES = ["Certificate", "Receipt", "Letter", "ID Card", "Ticket"]
 

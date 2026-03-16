@@ -6,7 +6,7 @@ Django REST API for document generation, verification, and analytics.
 
 ```
 Document_Generator_backend/
-├── backendapp/                 # Main application
+├── documentapp/                 # Main application
 │   ├── constants.py            # App constants (status values, roles)
 │   ├── models.py               # User, Document, DocumentType
 │   ├── serializers.py          # DRF serializers

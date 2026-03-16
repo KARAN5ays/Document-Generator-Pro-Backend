@@ -14,7 +14,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DocumentGenerator.settings")
 import django
 django.setup()
 
-from backendapp.models import Document
+from documentapp.models import Document
 
 
 def dump_documents(output_path="document_dump.json"):

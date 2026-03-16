@@ -14,7 +14,7 @@ from documentapp.models import DocumentType
 
 def setup_types():
     # Read the template content
-    template_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backendapp', 'templates', 'backendapp', 'document.html')
+    template_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'documentapp', 'templates', 'documentapp', 'document.html')
     with open(template_path, 'r') as f:
         template_html = f.read()
 

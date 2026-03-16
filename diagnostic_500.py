@@ -11,9 +11,9 @@ except Exception as e:
     print(f"Django setup failed: {e}")
     sys.exit(1)
 
-from backendapp.models import Document, User
+from documentapp.models import Document, User
 from django.test import RequestFactory
-from backendapp.views.documents import DocumentListView
+from documentapp.views.documents import DocumentListView
 
 try:
     # Test a simple query to verify select_related logic

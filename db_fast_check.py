@@ -9,13 +9,13 @@ def direct_sqlite():
         conn = sqlite3.connect('db.sqlite3')
         cursor = conn.cursor()
         print("Users:")
-        cursor.execute("SELECT id, username FROM backendapp_user")
+        cursor.execute("SELECT id, username FROM documentapp_user")
         users = cursor.fetchall()
         for u in users:
             print(f"  ID: {u[0]}, Username: {u[1]}")
             
         print("\nDocument counts by user ID:")
-        cursor.execute("SELECT issued_by_id, COUNT(*) FROM backendapp_document GROUP BY issued_by_id")
+        cursor.execute("SELECT issued_by_id, COUNT(*) FROM documentapp_document GROUP BY issued_by_id")
         counts = cursor.fetchall()
         for c in counts:
             print(f"  User ID: {c[0]}, Count: {c[1]}")
