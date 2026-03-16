@@ -11,7 +11,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.STAFF)
     
     class Meta:
-        db_table = 'backendapp_user'
+        db_table = 'documentapp_user'
 
     username = models.CharField(max_length=150, unique=True , null=True , blank=True)
     email = models.EmailField(unique=True , null=True , blank=True)
@@ -29,7 +29,7 @@ class Template(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='templates', null=True, blank=True, help_text="User who created this template. Null means global system template.")
 
     class Meta:
-        db_table = 'backendapp_template'
+        db_table = 'documentapp_template'
 
 
     def __str__(self):
@@ -51,7 +51,7 @@ class Document(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'backendapp_document'
+        db_table = 'documentapp_document'
 
 
     def __str__(self):
@@ -72,7 +72,7 @@ class CompanyAsset(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'backendapp_companyasset'
+        db_table = 'documentapp_companyasset'
 
 
     def __str__(self):
