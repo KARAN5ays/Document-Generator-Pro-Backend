@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class BackendappConfig(AppConfig):
-    name = 'backendapp'
+class DocumentappConfig(AppConfig):
+    name = 'documentapp'

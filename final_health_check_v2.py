@@ -5,7 +5,7 @@ import json
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DocumentGenerator.settings')
 django.setup()
 
-from backendapp.models import Document, User, DocumentType
+from documentapp.models import Document, User, DocumentType
 from django.conf import settings
 try:
     from rest_framework_simplejwt.token_blacklist.models import OutstandingToken

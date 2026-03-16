@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from backendapp.models import Document, Template
+from documentapp.models import Document, Template
 
 
 def _generate_tracking_field():

@@ -180,4 +180,4 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = SECURE_SSL_REDIRECT
     X_FRAME_OPTIONS = 'DENY'
 
-AUTH_USER_MODEL = 'backendapp.User'
+AUTH_USER_MODEL = 'documentapp.User'

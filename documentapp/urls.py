@@ -17,7 +17,7 @@ from .views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from backendapp.views.auth import RegisterView, UserProfileView
+from documentapp.views.auth import RegisterView, UserProfileView
 
 urlpatterns = [
     path("document-types/", DocumentTypeListView.as_view(), name="document-type-list"),

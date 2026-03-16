@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0009_documenttype_ui_config_alter_document_status_and_more'),
+        ('documentapp', '0009_documenttype_ui_config_alter_document_status_and_more'),
     ]
 
     operations = [

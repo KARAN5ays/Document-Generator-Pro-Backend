@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0007_documenttype_fields_schema'),
+        ('documentapp', '0007_documenttype_fields_schema'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='documenttype',
             name='template_file',
-            field=models.CharField(blank=True, help_text='Path to the template file (e.g. backendapp/custom_templates/my_template.html)', max_length=255, null=True),
+            field=models.CharField(blank=True, help_text='Path to the template file (e.g. documentapp/custom_templates/my_template.html)', max_length=255, null=True),
         ),
         migrations.AlterField(
             model_name='documenttype',

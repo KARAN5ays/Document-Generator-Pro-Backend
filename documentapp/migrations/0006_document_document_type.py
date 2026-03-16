@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0005_documenttype_remove_document_html_content_and_more'),
+        ('documentapp', '0005_documenttype_remove_document_html_content_and_more'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='document',
             name='document_type',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='backendapp.documenttype'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='documentapp.documenttype'),
         ),
     ]

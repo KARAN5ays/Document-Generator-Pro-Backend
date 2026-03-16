@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0011_delete_verificationattempt'),
+        ('documentapp', '0011_delete_verificationattempt'),
     ]
 
     operations = [

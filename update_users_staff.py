@@ -10,7 +10,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DocumentGenerator.settings')
 django.setup()
 
-from backendapp.models import User
+from documentapp.models import User
 
 # Update all users to have is_staff=True
 updated_count = User.objects.filter(is_staff=False).update(is_staff=True)

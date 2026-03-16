@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0010_add_verification_attempt'),
+        ('documentapp', '0010_add_verification_attempt'),
     ]
 
     operations = [

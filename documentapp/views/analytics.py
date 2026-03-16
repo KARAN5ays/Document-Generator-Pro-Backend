@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from backendapp.models import Document
-from backendapp.serializers import DocumentListSerializer
+from documentapp.models import Document
+from documentapp.serializers import DocumentListSerializer
 
 class DashboardAnalyticsView(APIView):
     """

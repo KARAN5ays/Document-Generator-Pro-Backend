@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0013_remove_documenttype_ui_config'),
+        ('documentapp', '0013_remove_documenttype_ui_config'),
     ]
 
     operations = [

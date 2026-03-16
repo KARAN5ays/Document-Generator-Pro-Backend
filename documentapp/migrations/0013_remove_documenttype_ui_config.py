@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0012_documenttype_created_by'),
+        ('documentapp', '0012_documenttype_created_by'),
     ]
 
     operations = [

@@ -8,9 +8,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.db.models import Q
 
-from backendapp.models import Template
-from backendapp.serializers import DocumentTypeSerializer
-from backendapp.permissions import IsStaffUser
+from documentapp.models import Template
+from documentapp.serializers import DocumentTypeSerializer
+from documentapp.permissions import IsStaffUser
 
 
 class DocumentTypeListView(APIView):

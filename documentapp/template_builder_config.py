@@ -47,7 +47,7 @@ HELP_TEXTS = {
 }
 
 # Base template file path for UI mode (editable from backend)
-DEFAULT_TEMPLATE_FILE = "backendapp/base_universal_template.html"
+DEFAULT_TEMPLATE_FILE = "documentapp/base_universal_template.html"
 
 
 def get_template_builder_config():

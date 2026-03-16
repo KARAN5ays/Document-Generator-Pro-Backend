@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0001_initial'),
+        ('documentapp', '0001_initial'),
     ]
 
     operations = [

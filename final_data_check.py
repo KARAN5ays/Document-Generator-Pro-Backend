@@ -5,7 +5,7 @@ import json
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DocumentGenerator.settings')
 django.setup()
 
-from backendapp.models import Document, User
+from documentapp.models import Document, User
 from django.conf import settings
 
 def final_test():

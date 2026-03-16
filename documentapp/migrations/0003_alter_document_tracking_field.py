@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backendapp', '0002_document_html_content_alter_document_tracking_field'),
+        ('documentapp', '0002_document_html_content_alter_document_tracking_field'),
     ]
 
     operations = [

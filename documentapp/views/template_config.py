@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from backendapp.template_builder_config import get_template_builder_config
+from documentapp.template_builder_config import get_template_builder_config
 
 
 class TemplateBuilderConfigView(APIView):
