@@ -9,6 +9,10 @@ class User(AbstractUser):
         STAFF = 'STAFF', 'Staff'
 
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.STAFF)
+    
+    class Meta:
+        db_table = 'backendapp_user'
+
     username = models.CharField(max_length=150, unique=True , null=True , blank=True)
     email = models.EmailField(unique=True , null=True , blank=True)
     is_staff = models.BooleanField(default=True, help_text="Designates whether the user can create documents.")
@@ -23,6 +27,10 @@ class Template(models.Model):
     template_file = models.CharField(max_length=255, help_text="Path to the template file (e.g. documentapp/custom_templates/my_template.html)", blank=True, null=True)
     fields_schema = models.JSONField(default=list, help_text="JSON list of field definitions for this template")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='templates', null=True, blank=True, help_text="User who created this template. Null means global system template.")
+
+    class Meta:
+        db_table = 'backendapp_template'
+
 
     def __str__(self):
         return self.name
@@ -42,6 +50,10 @@ class Document(models.Model):
     issued_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'backendapp_document'
+
+
     def __str__(self):
         return f"{self.document_type.name if self.document_type else 'Unknown'} - {self.tracking_field}"
 
@@ -58,6 +70,10 @@ class CompanyAsset(models.Model):
     is_default = models.BooleanField(default=False, help_text="Mark as the default asset for its type")
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assets')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'backendapp_companyasset'
+
 
     def __str__(self):
         return f"{self.get_asset_type_display()} – {self.name}"

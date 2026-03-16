@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='template',
             name='template_file',
-            field=models.CharField(blank=True, help_text='Path to the template file (e.g. backendapp/custom_templates/my_template.html)', max_length=255, null=True),
+            field=models.CharField(blank=True, help_text='Path to the template file (e.g. documentapp/custom_templates/my_template.html)', max_length=255, null=True),
         ),
     ]
