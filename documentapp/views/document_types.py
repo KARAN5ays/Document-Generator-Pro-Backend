@@ -20,7 +20,7 @@ class DocumentTypeListView(APIView):
         return [IsAuthenticated()]
 
     def get(self, request):
-        types = Template.objects.filter(Q(created_by=request.user) | Q(created_by__isnull=True))
+        types = Template.objects.select_related('created_by').filter(Q(created_by=request.user) | Q(created_by__isnull=True))
         serializer = DocumentTypeSerializer(types, many=True, context={'request': request})
         return Response(serializer.data)
 

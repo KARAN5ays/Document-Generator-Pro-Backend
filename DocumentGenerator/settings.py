@@ -43,6 +43,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "documentapp",
+    'memos',
+    'approvals',
+    'permission',
+    'helpers',
+    'autho',
 ]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (

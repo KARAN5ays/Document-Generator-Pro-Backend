@@ -1,12 +1,22 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from .models import Document, Template, User, CompanyAsset
 
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "role", "is_active", "is_staff")
-    list_filter = ("role", "is_active")
-    search_fields = ("username", "email")
+class UserAdmin(DefaultUserAdmin):
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "email")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+        ("Memo System", {"fields": ("idx", "display_name", "merchant", "roles", "role")}),
+    )
+    list_display = ("username", "email", "display_name", "merchant", "role", "is_active", "is_staff")
+    list_filter = ("role", "is_active", "merchant", "is_staff", "is_superuser")
+    search_fields = ("username", "email", "display_name")
+    filter_horizontal = ("roles",)
+    readonly_fields = ("idx",)
 
 
 @admin.register(Template)

@@ -19,19 +19,11 @@ class UserProfileView(APIView):
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "is_superuser": user.is_superuser
-        })
-
-class UserProfileView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "is_superuser": user.is_superuser
+            "is_superuser": user.is_superuser,
+            "display_name": getattr(user, 'display_name', ''),
+            "merchant": user.merchant.id if user.merchant else None,
+            "merchant_name": user.merchant.name if hasattr(user.merchant, 'name') and user.merchant else None,
+            "roles": list(user.roles.values_list('name', flat=True)) if hasattr(user, 'roles') else []
         })
 
 class RegisterView(generics.CreateAPIView):
