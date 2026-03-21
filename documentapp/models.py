@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator, RegexValidator
+import uuid
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -28,7 +30,6 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         """ On save, generate a unique idx if not already set. """
         if not self.idx:
-            import uuid
             self.idx = uuid.uuid4().hex[:20].upper()  # Generate a unique 20-character ID
         super().save(*args, **kwargs)
     
@@ -50,7 +51,7 @@ class Template(models.Model):
     template_html = models.TextField(help_text="HTML template for the document type", blank=True, null=True)
     template_file = models.CharField(max_length=255, help_text="Path to the template file (e.g. documentapp/custom_templates/my_template.html)", blank=True, null=True)
     fields_schema = models.JSONField(default=list, help_text="JSON list of field definitions for this template")
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='templates', null=True, blank=True, help_text="User who created this template. Null means global system template.")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='templates', null=True, blank=True, help_text="User who created this template. Null means global system template.")
 
     class Meta:
         db_table = 'documentapp_template'
@@ -71,7 +72,7 @@ class Document(models.Model):
         choices=[("valid", "Valid"), ("revoked", "Revoked")],
         help_text="Status of the document (valid/revoked)",
     )
-    issued_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='documents')
+    issued_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='documents')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -92,7 +93,7 @@ class CompanyAsset(models.Model):
     file = models.ImageField(upload_to='assets/', help_text="The uploaded image file")
     asset_type = models.CharField(max_length=20, choices=AssetType.choices, default=AssetType.LOGO)
     is_default = models.BooleanField(default=False, help_text="Mark as the default asset for its type")
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assets')
+    uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='assets')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
