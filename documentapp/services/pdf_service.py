@@ -5,7 +5,6 @@ PDF generation service with error handling.
 import logging
 
 from django.core.files.base import ContentFile
-from weasyprint import HTML
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +24,10 @@ def generate_document_pdf(document, html_string):
         ValueError: If PDF generation fails
     """
     try:
+        from weasyprint import HTML  # lazy import — avoids crashing views on startup if WeasyPrint is missing
         pdf_bytes = HTML(string=html_string).write_pdf()
+    except ImportError:
+        raise ValueError("WeasyPrint is not installed. Please run: pip install WeasyPrint")
     except Exception as e:
         logger.exception(
             "Failed to generate PDF for document %s: %s", document.pk, str(e)
