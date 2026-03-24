@@ -1,12 +1,11 @@
 from memos.models import Memo
 from approvals.models import ApprovalChainLog
-
+from django.db.models import Q
 class MemoService:
     """ Service Class For Handling Business Logic Related To Memos """
     @staticmethod
     def get_user_memos(user):
         """ User can see memos they created, or memos belonging to their merchant (for approvers) """
-        from django.db.models import Q
         if user.merchant:
             return Memo.objects.filter(Q(created_by=user) | Q(merchant=user.merchant)).select_related(
                 'created_by', 'merchant', 'approval_chain'

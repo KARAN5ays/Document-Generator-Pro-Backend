@@ -30,7 +30,7 @@ class MemoCreateSerializer(serializers.ModelSerializer):
             created_by=user,
             **validated_data
         )
-        # Assign approval chain based on memo type
+        """ Assign Approval Chain Based On Memo Type"""
         approval_chain = memo._get_approval_chain()
         if not approval_chain:
             raise serializers.ValidationError("No approval chain configured for this memo type.")
