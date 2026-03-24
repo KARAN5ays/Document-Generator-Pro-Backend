@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/', include('documentapp.urls')),
     path('api/', include('memos.urls')),
     path('api/', include('autho.urls')),
+    
 ]
