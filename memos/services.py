@@ -26,11 +26,11 @@ class MemoService:
             'created_by', 'merchant', 'approval_chain'
         ).prefetch_related('approval_chain__actions__allowed_roles')
 
-        # Privileged users see all memos in their organisation
+        """Priveleged users see all memos in their merchant org"""
         if user.merchant and user.iss(PRIVILEGED_ROLES):
             return base_qs.filter(merchant=user.merchant)
 
-        # Regular users only see their own memos
+        """Non priveleged users see only memos they created"""
         return base_qs.filter(created_by=user)
     
     @staticmethod
