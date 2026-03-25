@@ -1,19 +1,37 @@
 from memos.models import Memo
 from approvals.models import ApprovalChainLog
-from django.db.models import Q
+from permission.constants import Role as ROLE
+
+
+# Roles that are allowed to see ALL memos in their organisation
+PRIVILEGED_ROLES = [
+    ROLE.MANAGER.value,
+    ROLE.FINANCE.value,
+    ROLE.DIRECTOR.value,
+    ROLE.SUPERUSER.value,
+]
+
+
 class MemoService:
-    """ Service Class For Handling Business Logic Related To Memos """
+    """Service Class For Handling Business Logic Related To Memos"""
+
     @staticmethod
     def get_user_memos(user):
-        """ User can see memos they created, or memos belonging to their merchant (for approvers) """
-        if user.merchant:
-            return Memo.objects.filter(Q(created_by=user) | Q(merchant=user.merchant)).select_related(
-                'created_by', 'merchant', 'approval_chain'
-            ).prefetch_related('approval_chain__actions__allowed_roles')
-        else:
-            return Memo.objects.filter(created_by=user).select_related(
-                'created_by', 'merchant', 'approval_chain'
-            ).prefetch_related('approval_chain__actions__allowed_roles')
+        """
+        Memo visibility rules:
+          - Privileged roles (Manager, Finance, Director, Superuser) → all memos in their org.
+          - Every other user → only memos they personally created.
+        """
+        base_qs = Memo.objects.select_related(
+            'created_by', 'merchant', 'approval_chain'
+        ).prefetch_related('approval_chain__actions__allowed_roles')
+
+        # Privileged users see all memos in their organisation
+        if user.merchant and user.iss(PRIVILEGED_ROLES):
+            return base_qs.filter(merchant=user.merchant)
+
+        # Regular users only see their own memos
+        return base_qs.filter(created_by=user)
     
     @staticmethod
     def get_approval_logs_for_memo(memo):
